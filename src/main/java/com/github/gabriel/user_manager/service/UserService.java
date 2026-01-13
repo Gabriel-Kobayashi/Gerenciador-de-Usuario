@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.github.gabriel.user_manager.dto.UserCreateDto;
+import com.github.gabriel.user_manager.dto.UserUpdateDto;
 import com.github.gabriel.user_manager.entity.User;
 import com.github.gabriel.user_manager.exception.UserNotFoundException;
 import com.github.gabriel.user_manager.repository.UserRepository;
@@ -42,5 +44,23 @@ public class UserService {
 		userUpdate.setEmail(obj.getEmail());
 		
 		return repository.save(userUpdate);
+	}
+	
+	public User insertDto(UserCreateDto objDto) {
+		User obj = new User();
+		obj.setName(objDto.name());
+		obj.setEmail(objDto.email());
+		
+		return repository.save(obj);
+	}
+	
+	public User updateDto(Long id, UserUpdateDto objDto) {
+		User obj = repository.findById(id).orElseThrow(() -> new UserNotFoundException(
+				"Usuário com ID "+id+" não encontrado."));
+		
+		obj.setName(objDto.name());
+		obj.setEmail(objDto.email());
+		
+		return repository.save(obj);
 	}
 }

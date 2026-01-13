@@ -3,6 +3,7 @@ package com.github.gabriel.user_manager.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.gabriel.user_manager.dto.UserCreateDto;
 import com.github.gabriel.user_manager.dto.UserDto;
+import com.github.gabriel.user_manager.dto.UserUpdateDto;
 import com.github.gabriel.user_manager.entity.User;
 import com.github.gabriel.user_manager.service.UserService;
 
@@ -41,20 +44,20 @@ public class UserController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<User> insertUser(@RequestBody User obj) {
-		service.Insert(obj);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<UserDto> insertUser(@RequestBody UserCreateDto objDto) {
+		User obj = service.insertDto(objDto);
+		return ResponseEntity.status(HttpStatus.CREATED).body(new UserDto(obj));
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserUpdateDto objDto) {
+		User obj = service.updateDto(id, objDto);
+		return ResponseEntity.ok(new UserDto(obj));
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		service.deleteById(id);
 		return ResponseEntity.noContent().build();
-	}
-	
-	@PutMapping("/{id}")
-	public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User obj) {
-		User userUpdate = service.update(id, obj);
-		return ResponseEntity.ok().body(userUpdate);
 	}
 }
