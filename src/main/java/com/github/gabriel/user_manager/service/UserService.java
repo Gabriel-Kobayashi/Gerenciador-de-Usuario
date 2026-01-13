@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.github.gabriel.user_manager.entity.User;
+import com.github.gabriel.user_manager.exception.UserNotFoundException;
 import com.github.gabriel.user_manager.repository.UserRepository;
 
 @Service
@@ -18,5 +19,10 @@ public class UserService {
 	
 	public List<User> findAll() {
 		return repository.findAll();
+	}
+	
+	public User findById(Long id) {
+		return repository.findById(id).orElseThrow(() -> new UserNotFoundException(
+				"Usuário com ID "+id+" não encontrado."));
 	}
 }
