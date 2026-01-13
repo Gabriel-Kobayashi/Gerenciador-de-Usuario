@@ -33,4 +33,14 @@ public class UserService {
 	public void deleteById(Long id) {
 		repository.deleteById(id);
 	}
+	
+	public User update(Long id, User obj) {
+		User userUpdate = repository.findById(id).orElseThrow(() -> new UserNotFoundException(
+				"Usuário com ID "+id+" não encontrado."));
+		
+		userUpdate.setName(obj.getName());
+		userUpdate.setEmail(obj.getEmail());
+		
+		return repository.save(userUpdate);
+	}
 }
