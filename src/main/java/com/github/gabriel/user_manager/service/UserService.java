@@ -25,4 +25,12 @@ public class UserService {
 		return repository.findById(id).orElseThrow(() -> new UserNotFoundException(
 				"Usuário com ID "+id+" não encontrado."));
 	}
+	
+	public User Insert(User obj) {
+		return repository.save(obj);
+	}
+	
+	public void deleteById(Long id) {
+		repository.deleteById(id);
+	}
 }
