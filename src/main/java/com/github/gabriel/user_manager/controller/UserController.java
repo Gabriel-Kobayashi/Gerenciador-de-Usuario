@@ -18,6 +18,7 @@ import com.github.gabriel.user_manager.dto.UserCreateDto;
 import com.github.gabriel.user_manager.dto.UserDto;
 import com.github.gabriel.user_manager.dto.UserUpdateDto;
 import com.github.gabriel.user_manager.entity.User;
+import com.github.gabriel.user_manager.exception.UserNotFoundException;
 import com.github.gabriel.user_manager.service.UserService;
 
 @RestController
@@ -59,5 +60,11 @@ public class UserController {
 	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		service.deleteById(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("/email/{email}")
+	public ResponseEntity<UserDto> findByEmail(@PathVariable String email) {
+		User obj = service.findByEmail(email);
+		return ResponseEntity.ok(new UserDto(obj));
 	}
 }

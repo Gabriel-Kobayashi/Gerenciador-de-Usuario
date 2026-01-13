@@ -63,4 +63,8 @@ public class UserService {
 		
 		return repository.save(obj);
 	}
+	
+	public User findByEmail(String email) {
+		return repository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("Usuário com email "+email+" não encontrado."));
+	}
 }
