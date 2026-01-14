@@ -40,13 +40,8 @@ public class UserController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable Long id) {
-		try {
 			User obj = service.findById(id);
 			return ResponseEntity.ok(new UserDto(obj));
-		}
-		catch (UserNotFoundException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-		}
 	}
 	
 	@PostMapping
@@ -57,45 +52,25 @@ public class UserController {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserUpdateDto objDto) {
-		try {
-			User obj = service.updateDto(id, objDto);
-			return ResponseEntity.ok(new UserDto(obj));
-		}
-		catch (UserNotFoundException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-		}
+		User obj = service.updateDto(id, objDto);
+		return ResponseEntity.ok(new UserDto(obj));
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteById(@PathVariable Long id) {
-		try {
-			service.deleteById(id);
-			return ResponseEntity.noContent().build();
-		}
-		catch (UserNotFoundException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-		}
+		service.deleteById(id);
+		return ResponseEntity.noContent().build();
 	}
 	
 	@GetMapping("/email/{email}")
 	public ResponseEntity<?> findByEmail(@PathVariable String email) {
-		try {
-			User obj = service.findByEmail(email);
-			return ResponseEntity.ok(new UserDto(obj));
-		}
-		catch (UserNotFoundException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-		}
+		User obj = service.findByEmail(email);
+		return ResponseEntity.ok(new UserDto(obj));
 	}
 	
 	@GetMapping("/name/{name}")
 	public ResponseEntity<?> findByNome(@PathVariable String name) {
-		try {
-			User obj = service.findByName(name);
-			return ResponseEntity.ok(new UserDto(obj));
-		}
-		catch (UserNotFoundException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-		}
+		User obj = service.findByName(name);
+		return ResponseEntity.ok(new UserDto(obj));
 	}
 }
