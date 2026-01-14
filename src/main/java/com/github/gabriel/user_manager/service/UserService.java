@@ -36,6 +36,7 @@ public class UserService {
 		if (!repository.existsById(id)) {
 			throw new UserNotFoundException("Usuário com ID "+id+" não encontrado.");
 		}
+		repository.deleteById(id);
 	}
 	
 	public User update(Long id, User obj) {
