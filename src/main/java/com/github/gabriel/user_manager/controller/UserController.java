@@ -39,9 +39,14 @@ public class UserController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<UserDto> findById(@PathVariable Long id) {
-		User obj = service.findById(id);
-		return ResponseEntity.ok(new UserDto(obj));
+	public ResponseEntity<?> findById(@PathVariable Long id) {
+		try {
+			User obj = service.findById(id);
+			return ResponseEntity.ok(new UserDto(obj));
+		}
+		catch (UserNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 	
 	@PostMapping
@@ -51,26 +56,46 @@ public class UserController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserUpdateDto objDto) {
-		User obj = service.updateDto(id, objDto);
-		return ResponseEntity.ok(new UserDto(obj));
+	public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserUpdateDto objDto) {
+		try {
+			User obj = service.updateDto(id, objDto);
+			return ResponseEntity.ok(new UserDto(obj));
+		}
+		catch (UserNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-		service.deleteById(id);
-		return ResponseEntity.noContent().build();
+	public ResponseEntity<?> deleteById(@PathVariable Long id) {
+		try {
+			service.deleteById(id);
+			return ResponseEntity.noContent().build();
+		}
+		catch (UserNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 	
 	@GetMapping("/email/{email}")
-	public ResponseEntity<UserDto> findByEmail(@PathVariable String email) {
-		User obj = service.findByEmail(email);
-		return ResponseEntity.ok(new UserDto(obj));
+	public ResponseEntity<?> findByEmail(@PathVariable String email) {
+		try {
+			User obj = service.findByEmail(email);
+			return ResponseEntity.ok(new UserDto(obj));
+		}
+		catch (UserNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 	
 	@GetMapping("/name/{name}")
-	public ResponseEntity<UserDto> findByNome(@PathVariable String name) {
-		User obj = service.findByName(name);
-		return ResponseEntity.ok(new UserDto(obj));
+	public ResponseEntity<?> findByNome(@PathVariable String name) {
+		try {
+			User obj = service.findByName(name);
+			return ResponseEntity.ok(new UserDto(obj));
+		}
+		catch (UserNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 }
