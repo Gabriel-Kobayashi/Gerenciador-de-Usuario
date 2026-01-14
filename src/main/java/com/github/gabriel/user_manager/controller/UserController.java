@@ -18,56 +18,57 @@ import com.github.gabriel.user_manager.dto.UserCreateDto;
 import com.github.gabriel.user_manager.dto.UserDto;
 import com.github.gabriel.user_manager.dto.UserUpdateDto;
 import com.github.gabriel.user_manager.entity.User;
-import com.github.gabriel.user_manager.exception.UserNotFoundException;
 import com.github.gabriel.user_manager.service.UserService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
 
 	private final UserService service;
-	
+
 	public UserController(UserService service) {
 		this.service = service;
 	}
-	
+
 	@GetMapping
 	public ResponseEntity<List<UserDto>> findAll() {
 		List<User> list = service.findAll();
 		List<UserDto> listDto = list.stream().map(x -> new UserDto(x)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDto);
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable Long id) {
-			User obj = service.findById(id);
-			return ResponseEntity.ok(new UserDto(obj));
+		User obj = service.findById(id);
+		return ResponseEntity.ok(new UserDto(obj));
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<UserDto> insertUser(@RequestBody UserCreateDto objDto) {
+	public ResponseEntity<UserDto> insertUser(@RequestBody @Valid UserCreateDto objDto) {
 		User obj = service.insertDto(objDto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(new UserDto(obj));
 	}
-	
+
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserUpdateDto objDto) {
+	public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDto objDto) {
 		User obj = service.updateDto(id, objDto);
 		return ResponseEntity.ok(new UserDto(obj));
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteById(@PathVariable Long id) {
 		service.deleteById(id);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@GetMapping("/email/{email}")
 	public ResponseEntity<?> findByEmail(@PathVariable String email) {
 		User obj = service.findByEmail(email);
 		return ResponseEntity.ok(new UserDto(obj));
 	}
-	
+
 	@GetMapping("/name/{name}")
 	public ResponseEntity<?> findByNome(@PathVariable String name) {
 		User obj = service.findByName(name);

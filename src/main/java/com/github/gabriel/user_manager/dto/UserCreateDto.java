@@ -1,5 +1,16 @@
 package com.github.gabriel.user_manager.dto;
 
-public record UserCreateDto(String name, String email) {
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
-}
+public record UserCreateDto(
+		
+		@NotBlank(message = "Nome é obrigatório")
+		String name, 
+		
+		@NotBlank(message = "Email é obrigatório")
+		@Email(message = "Email inválido")
+		String email
+		
+		) 
+ {}
