@@ -67,4 +67,10 @@ public class UserController {
 		User obj = service.findByEmail(email);
 		return ResponseEntity.ok(new UserDto(obj));
 	}
+	
+	@GetMapping("/name/{name}")
+	public ResponseEntity<UserDto> findByNome(@PathVariable String name) {
+		User obj = service.findByName(name);
+		return ResponseEntity.ok(new UserDto(obj));
+	}
 }

@@ -9,4 +9,6 @@ import com.github.gabriel.user_manager.entity.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 
 	Optional<User> findByEmail(String email);
+	
+	Optional<User> findByName(String name);
 }
