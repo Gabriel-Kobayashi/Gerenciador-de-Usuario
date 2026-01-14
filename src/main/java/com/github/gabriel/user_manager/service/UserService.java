@@ -28,12 +28,14 @@ public class UserService {
 				"Usuário com ID "+id+" não encontrado."));
 	}
 	
-	public User Insert(User obj) {
+	public User insert(User obj) {
 		return repository.save(obj);
 	}
 	
 	public void deleteById(Long id) {
-		repository.deleteById(id);
+		if (!repository.existsById(id)) {
+			throw new UserNotFoundException("Usuário com ID "+id+" não encontrado.");
+		}
 	}
 	
 	public User update(Long id, User obj) {
