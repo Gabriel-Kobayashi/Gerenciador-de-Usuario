@@ -3,6 +3,8 @@ package com.github.gabriel.user_manager.entity;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +28,7 @@ public class User implements Serializable {
 	private String email;
 	
 	@Column(nullable =false)
+	@JsonIgnore
 	private String password;
 	
 	public User() {

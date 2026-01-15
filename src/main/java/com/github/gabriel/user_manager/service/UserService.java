@@ -2,6 +2,8 @@ package com.github.gabriel.user_manager.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.github.gabriel.user_manager.dto.UserCreateDto;
@@ -18,6 +20,9 @@ public class UserService {
 	public UserService(UserRepository repository) {
 		this.repository = repository;
 	}
+	
+	@Autowired
+	private PasswordEncoder encoder;
 	
 	public List<User> findAll() {
 		return repository.findAll();
@@ -49,10 +54,11 @@ public class UserService {
 		return repository.save(userUpdate);
 	}
 	
-	public User insertDto(UserCreateDto objDto) {
+	public User createDto(UserCreateDto objDto) {
 		User obj = new User();
 		obj.setName(objDto.name());
 		obj.setEmail(objDto.email());
+		obj.setPassword(encoder.encode(objDto.password()));
 		
 		return repository.save(obj);
 	}

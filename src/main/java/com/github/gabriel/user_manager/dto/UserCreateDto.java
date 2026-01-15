@@ -2,6 +2,7 @@ package com.github.gabriel.user_manager.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public record UserCreateDto(
 		
@@ -10,7 +11,10 @@ public record UserCreateDto(
 		
 		@NotBlank(message = "Email é obrigatório")
 		@Email(message = "Email inválido")
-		String email
+		String email,
 		
+		@NotBlank(message = "Senha é obrigatório")
+		@Size(min = 6, message = "Senha deve ter no mínimo 6 caracteres")
+		String password
 		) 
  {}
