@@ -25,13 +25,17 @@ public class User implements Serializable {
 	@Column(nullable = false, unique = true)
 	private String email;
 	
+	@Column(nullable =false)
+	private String password;
+	
 	public User() {
 	}
 
-	public User(Long id, String name, String email) {
+	public User(Long id, String name, String email, String password) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
+		this.password = password;
 	}
 
 	public Long getId() {
@@ -56,6 +60,14 @@ public class User implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@Override
