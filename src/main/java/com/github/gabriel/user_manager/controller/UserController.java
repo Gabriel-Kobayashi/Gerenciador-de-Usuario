@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.gabriel.user_manager.dto.LoginDto;
 import com.github.gabriel.user_manager.dto.UserCreateDto;
 import com.github.gabriel.user_manager.dto.UserDto;
 import com.github.gabriel.user_manager.dto.UserUpdateDto;
@@ -49,6 +50,12 @@ public class UserController {
 	public ResponseEntity<UserDto> createUser(@RequestBody @Valid UserCreateDto objDto) {
 		User obj = service.createDto(objDto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(new UserDto(obj));
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<String> login(@RequestBody @Valid LoginDto loginDto) {
+		User obj = service.authenticate(loginDto);
+		return ResponseEntity.ok("Usuário autenticado com sucesso!");
 	}
 
 	@PutMapping("/{id}")

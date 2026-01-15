@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.github.gabriel.user_manager.dto.LoginDto;
 import com.github.gabriel.user_manager.dto.UserCreateDto;
 import com.github.gabriel.user_manager.dto.UserUpdateDto;
 import com.github.gabriel.user_manager.entity.User;
@@ -57,6 +58,16 @@ public class UserService {
 		obj.setEmail(objDto.email());
 		
 		return repository.save(obj);
+	}
+	
+	public User authenticate(LoginDto loginDto) {
+		User obj = repository.findByEmail(loginDto.email())
+				.orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+		
+		if (!encoder.matches(loginDto.password(), obj.getPassword())) {
+			throw new UserNotFoundException("Senha incorreta");
+		}
+		return obj;
 	}
 	
 	public User findByEmail(String email) {
