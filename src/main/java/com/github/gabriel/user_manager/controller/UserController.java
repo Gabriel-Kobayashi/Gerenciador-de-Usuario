@@ -40,7 +40,7 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> findById(@PathVariable Long id) {
+	public ResponseEntity<UserDto> findById(@PathVariable Long id) {
 		User obj = service.findById(id);
 		return ResponseEntity.ok(new UserDto(obj));
 	}
@@ -52,25 +52,25 @@ public class UserController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDto objDto) {
+	public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDto objDto) {
 		User obj = service.updateDto(id, objDto);
 		return ResponseEntity.ok(new UserDto(obj));
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteById(@PathVariable Long id) {
+	public ResponseEntity<UserDto> deleteById(@PathVariable Long id) {
 		service.deleteById(id);
 		return ResponseEntity.noContent().build();
 	}
 
 	@GetMapping("/email/{email}")
-	public ResponseEntity<?> findByEmail(@PathVariable String email) {
+	public ResponseEntity<UserDto> findByEmail(@PathVariable String email) {
 		User obj = service.findByEmail(email);
 		return ResponseEntity.ok(new UserDto(obj));
 	}
 
 	@GetMapping("/name/{name}")
-	public ResponseEntity<?> findByNome(@PathVariable String name) {
+	public ResponseEntity<UserDto> findByNome(@PathVariable String name) {
 		User obj = service.findByName(name);
 		return ResponseEntity.ok(new UserDto(obj));
 	}
