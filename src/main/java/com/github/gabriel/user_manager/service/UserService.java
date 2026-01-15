@@ -33,25 +33,11 @@ public class UserService {
 				"Usuário com ID "+id+" não encontrado."));
 	}
 	
-	public User insert(User obj) {
-		return repository.save(obj);
-	}
-	
 	public void deleteById(Long id) {
 		if (!repository.existsById(id)) {
 			throw new UserNotFoundException("Usuário com ID "+id+" não encontrado.");
 		}
 		repository.deleteById(id);
-	}
-	
-	public User update(Long id, User obj) {
-		User userUpdate = repository.findById(id).orElseThrow(() -> new UserNotFoundException(
-				"Usuário com ID "+id+" não encontrado."));
-		
-		userUpdate.setName(obj.getName());
-		userUpdate.setEmail(obj.getEmail());
-		
-		return repository.save(userUpdate);
 	}
 	
 	public User createDto(UserCreateDto objDto) {
