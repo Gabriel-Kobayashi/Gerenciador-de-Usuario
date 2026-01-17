@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.gabriel.user_manager.dto.LoginDto;
 import com.github.gabriel.user_manager.dto.RegisterUserRequest;
 import com.github.gabriel.user_manager.dto.RegisterUserResponse;
+import com.github.gabriel.user_manager.dto.TokenResponse;
+import com.github.gabriel.user_manager.security.TokenService;
 import com.github.gabriel.user_manager.service.UserService;
 
 @RestController
@@ -23,19 +26,26 @@ public class AuthController {
 	
 	private AuthenticationManager authenticationManager;
 	
-	public AuthController(AuthenticationManager authenticationManager, UserService service) {
+	private TokenService tokenService;
+	
+	public AuthController(AuthenticationManager authenticationManager, UserService service, TokenService tokenService) {
 		this.authenticationManager = authenticationManager;
 		this.service = service;
+		this.tokenService = tokenService;
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
+	public ResponseEntity<TokenResponse> login(@RequestBody LoginDto loginDto) {
 		UsernamePasswordAuthenticationToken authToken =
 				new UsernamePasswordAuthenticationToken(loginDto.email(), loginDto.password());
 		
 		Authentication authentication = authenticationManager.authenticate(authToken);
 		
-		return ResponseEntity.ok("Usuário autenticado com sucesso!");
+		String token = tokenService.generateToken(
+				(UserDetails) authentication.getPrincipal()
+		);
+		
+		return ResponseEntity.ok(new TokenResponse(token));
 	}
 	
 	@PostMapping("/register")
