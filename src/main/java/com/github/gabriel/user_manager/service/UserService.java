@@ -7,6 +7,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.github.gabriel.user_manager.dto.LoginDto;
+import com.github.gabriel.user_manager.dto.RegisterUserRequest;
+import com.github.gabriel.user_manager.dto.RegisterUserResponse;
 import com.github.gabriel.user_manager.dto.UserCreateDto;
 import com.github.gabriel.user_manager.dto.UserUpdateDto;
 import com.github.gabriel.user_manager.entity.User;
@@ -41,23 +43,15 @@ public class UserService {
 		repository.deleteById(id);
 	}
 	
-	public User createDto(UserCreateDto objDto) {
+	public RegisterUserResponse register(RegisterUserRequest request) {
 		User obj = new User();
-		obj.setName(objDto.name());
-		obj.setEmail(objDto.email());
-		obj.setPassword(encoder.encode(objDto.password()));
+		obj.setName(request.name());
+		obj.setEmail(request.email());
+		obj.setPassword(encoder.encode(request.password()));
 		
-		return repository.save(obj);
-	}
-	
-	public User updateDto(Long id, UserUpdateDto objDto) {
-		User obj = repository.findById(id).orElseThrow(() -> new UserNotFoundException(
-				"Usuário com ID "+id+" não encontrado."));
+		User savedUser = repository.save(obj);
 		
-		obj.setName(objDto.name());
-		obj.setEmail(objDto.email());
-		
-		return repository.save(obj);
+		return new RegisterUserResponse(savedUser.getName(), savedUser.getEmail());
 	}
 	
 	public User authenticate(LoginDto loginDto) {
@@ -68,6 +62,16 @@ public class UserService {
 			throw new UserNotFoundException("Senha incorreta");
 		}
 		return obj;
+	}
+	
+	public User updateDto(Long id, UserUpdateDto objDto) {
+		User obj = repository.findById(id).orElseThrow(() -> new UserNotFoundException(
+				"Usuário com ID "+id+" não encontrado."));
+		
+		obj.setName(objDto.name());
+		obj.setEmail(objDto.email());
+		
+		return repository.save(obj);
 	}
 	
 	public User findByEmail(String email) {

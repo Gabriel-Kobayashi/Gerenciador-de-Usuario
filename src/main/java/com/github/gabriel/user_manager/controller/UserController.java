@@ -46,18 +46,6 @@ public class UserController {
 		return ResponseEntity.ok(new UserDto(obj));
 	}
 
-	@PostMapping
-	public ResponseEntity<UserDto> createUser(@RequestBody @Valid UserCreateDto objDto) {
-		User obj = service.createDto(objDto);
-		return ResponseEntity.status(HttpStatus.CREATED).body(new UserDto(obj));
-	}
-	
-	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody @Valid LoginDto loginDto) {
-		User obj = service.authenticate(loginDto);
-		return ResponseEntity.ok("Usuário autenticado com sucesso!");
-	}
-
 	@PutMapping("/{id}")
 	public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDto objDto) {
 		User obj = service.updateDto(id, objDto);
