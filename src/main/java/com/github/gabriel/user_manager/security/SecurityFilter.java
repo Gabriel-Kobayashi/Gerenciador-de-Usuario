@@ -34,15 +34,19 @@ public class SecurityFilter extends OncePerRequestFilter {
 		
 		String token = recoverToken(request);
 		
-		if (token != null) {
-			String email = tokenService.getSubject(token);
-			UserDetails user = userDetailsService.loadUserByUsername(email);
-			
-			UsernamePasswordAuthenticationToken authentication =
-					new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-			
-			SecurityContextHolder.getContext()
-					.setAuthentication(authentication);
+		try {
+			if (token != null) {
+				String email = tokenService.getSubject(token);
+				UserDetails user = userDetailsService.loadUserByUsername(email);
+				
+				UsernamePasswordAuthenticationToken authentication =
+						new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+				
+				SecurityContextHolder.getContext()
+						.setAuthentication(authentication);
+			}
+		} catch (Exception e) {
+			SecurityContextHolder.clearContext();
 		}
 		
 		filterChain.doFilter(request, response);
