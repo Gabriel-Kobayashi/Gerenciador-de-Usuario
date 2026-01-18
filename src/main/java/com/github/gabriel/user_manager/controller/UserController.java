@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.gabriel.user_manager.dto.LoginDto;
@@ -58,15 +59,10 @@ public class UserController {
 		return ResponseEntity.noContent().build();
 	}
 
-	@GetMapping("/email/{email}")
-	public ResponseEntity<UserDto> findByEmail(@PathVariable String email) {
-		User obj = service.findByEmail(email);
+	@GetMapping("/search")
+	public ResponseEntity<UserDto> findUser(@RequestParam(required=false) String email, @RequestParam(required=false) String name) {
+		User obj = service.findByEmailOrName(email, name);
 		return ResponseEntity.ok(new UserDto(obj));
 	}
-
-	@GetMapping("/name/{name}")
-	public ResponseEntity<UserDto> findByNome(@PathVariable String name) {
-		User obj = service.findByName(name);
-		return ResponseEntity.ok(new UserDto(obj));
-	}
+	
 }
