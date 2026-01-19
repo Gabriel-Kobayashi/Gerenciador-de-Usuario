@@ -73,6 +73,21 @@ public class UserService {
 
 		return repository.save(obj);
 	}
+	
+	public User updateParcial(Long id, UserUpdateDto dto) {
+		User user = repository.findById(id).orElseThrow(() -> new UserNotFoundException("Usuário não encontrado"));
+		
+		if (dto.name() != null) {
+			user.setName(dto.name());
+		}
+		if (dto.email() != null) {
+			user.setEmail(dto.email());
+		}
+		if (dto.password() != null) {
+			user.setPassword(encoder.encode(dto.password()));
+		}
+		return repository.save(user);
+	}
 
 	public User findByEmailOrName(String email, String name) {
 
