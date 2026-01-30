@@ -47,8 +47,8 @@ incluindo atualização parcial de dados, validação de informações e proteç
 - `GET /users` – Lista todos os usuários  
 - `GET /users/{id}` – Busca usuário por ID  
 - `GET /users/search` – Busca usuários por parâmetros  
-- `PUT /users/{id}` – Atualiza todos os dados  
-- `PATCH /users/{id}` – Atualiza parcialmente os dados  
+- `PUT /users/{id}` – Atualiza todos os dados do usuário  
+- `PATCH /users/{id}` – Atualiza parcialmente os dados do usuário 
 - `DELETE /users/{id}` – Remove usuário  
 
 ---
@@ -106,10 +106,10 @@ A aplicação segue o padrão de arquitetura em camadas, facilitando manutençã
 
 ```bash
 # Clone o repositório
-git clone https://github.com/Gabriel-Kobayashi/Gerenciador-de-Usuario.git
+git clone https://github.com/Gabriel-Kobayashi/gerenciador-de-usuarios.git
 
 # Acesse a pasta do projeto
-cd Gerenciador-de-Usuario
+cd gerenciador-de-usuarios
 
 # Execute a aplicação
 mvn spring-boot:run
