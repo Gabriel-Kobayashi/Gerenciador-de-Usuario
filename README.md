@@ -106,7 +106,7 @@ A aplicação segue o padrão de arquitetura em camadas, facilitando manutençã
 
 ```bash
 # Clone o repositório
-git clone https://github.com/Gabriel-Kobayashi/gerenciador-de-usuarios.git
+git clone https://github.com/gabriel-kobayashi/gerenciador-de-usuarios.git
 
 # Acesse a pasta do projeto
 cd gerenciador-de-usuarios
